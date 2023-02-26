@@ -9,6 +9,7 @@ import com.swm.domain.entity.Article;
 import com.swm.domain.vo.HotArticleVo;
 import com.swm.mapper.ArticleMapper;
 import com.swm.service.ArticleService;
+import com.swm.utils.BeanCopyUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -31,12 +32,13 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         Page<Article> page = new Page<>(1, SystemConstants.HOT_ARTICLE_COUNTS);
         page(page,queryWrapper);
         List<Article> articles = page.getRecords();
-        List<HotArticleVo> articleVos = new ArrayList<>();
-        for (Article article : articles){
-            HotArticleVo vo = new HotArticleVo();
-            BeanUtils.copyProperties(article,vo);
-            articleVos.add(vo);
-        }
+//        List<HotArticleVo> articleVos = new ArrayList<>();
+//        for (Article article : articles){
+//            HotArticleVo vo = new HotArticleVo();
+//            BeanUtils.copyProperties(article,vo);
+//            articleVos.add(vo);
+//        }
+        List<HotArticleVo> articleVos = BeanCopyUtils.copyBeanList(articles,HotArticleVo.class);
 
         return ResponseResult.okResult(articleVos);
     }
