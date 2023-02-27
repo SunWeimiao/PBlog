@@ -10,10 +10,8 @@ import com.swm.domain.vo.HotArticleVo;
 import com.swm.mapper.ArticleMapper;
 import com.swm.service.ArticleService;
 import com.swm.utils.BeanCopyUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 

@@ -14,4 +14,6 @@ public class SystemConstants
      * 热门文章展示数量
      * */
     public static final int HOT_ARTICLE_COUNTS = 10;
+
+    public static final String STATUS_NORMAL = "0";
 }
