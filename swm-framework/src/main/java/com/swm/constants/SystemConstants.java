@@ -16,4 +16,8 @@ public class SystemConstants
     public static final int HOT_ARTICLE_COUNTS = 10;
 
     public static final String STATUS_NORMAL = "0";
+    /**
+     * 友链审核通过
+     * */
+    public static final String LINK_STATUS_NORMAL = "0";
 }

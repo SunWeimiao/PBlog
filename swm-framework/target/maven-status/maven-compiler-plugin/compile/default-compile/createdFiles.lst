@@ -1,3 +1,5 @@
+com\swm\domain\vo\LinkVo.class
+com\swm\service\LinkService.class
 com\swm\service\impl\CategoryServiceImpl.class
 com\swm\utils\BeanCopyUtils.class
 com\swm\domain\ResponseResult.class
@@ -5,6 +7,7 @@ com\swm\domain\vo\HotArticleVo.class
 com\swm\mapper\CategoryMapper.class
 com\swm\domain\vo\ArticleListVo.class
 com\swm\domain\entity\Article.class
+com\swm\mapper\LinkMapper.class
 com\swm\service\impl\ArticleServiceImpl.class
 com\swm\config\MbatisPlusConfig.class
 com\swm\config\WebConfig.class
@@ -12,7 +15,9 @@ com\swm\domain\vo\PageVo.class
 com\swm\domain\vo\CategoryVo.class
 com\swm\service\ArticleService.class
 com\swm\enums\AppHttpCodeEnum.class
+com\swm\service\impl\LinkServiceImpl.class
 com\swm\domain\entity\Category.class
 com\swm\constants\SystemConstants.class
+com\swm\domain\entity\Link.class
 com\swm\mapper\ArticleMapper.class
 com\swm\service\CategoryService.class
