@@ -5,6 +5,7 @@ import com.swm.domain.entity.LoginUser;
 import com.swm.domain.entity.User;
 import com.swm.domain.vo.BlogUserLoginVo;
 import com.swm.domain.vo.UserInfoVo;
+import com.swm.enums.AppHttpCodeEnum;
 import com.swm.service.BlogLoginService;
 import com.swm.utils.BeanCopyUtils;
 import com.swm.utils.JwtUtil;
@@ -31,7 +32,7 @@ public class BlogLoginServiceImpl implements BlogLoginService {
         Authentication authenticate = authenticationManager.authenticate(authenticationToken);
         // 判断是否认证通过
         if (Objects.isNull(authenticate)){
-            throw new RuntimeException("用户名或密码错误");
+            throw new RuntimeException(AppHttpCodeEnum.LOGIN_ERROR.getMsg());
         }
         //获取userid生成token
         LoginUser loginUser = (LoginUser) authenticate.getPrincipal();
