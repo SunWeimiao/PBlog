@@ -20,4 +20,8 @@ public class SystemConstants
      * 友链审核通过
      * */
     public static final String LINK_STATUS_NORMAL = "0";
+    /**
+     * 评论为根评论
+     * */
+    public static final int ROOT_COMMENT = -1;
 }
