@@ -50,6 +50,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .antMatchers("/logout").authenticated()
                 //获取友链需要登录访问
                 .antMatchers("/link/getAllLink").authenticated()
+                //评论文章需要登录访问
+                .antMatchers("/comment").authenticated()
                 // 除上面外的所有请求全部不需要认证即可访问
                 .anyRequest().permitAll();
 

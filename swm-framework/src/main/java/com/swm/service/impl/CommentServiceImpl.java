@@ -8,13 +8,16 @@ import com.swm.domain.ResponseResult;
 import com.swm.domain.entity.Comment;
 import com.swm.domain.vo.CommentVo;
 import com.swm.domain.vo.PageVo;
+import com.swm.enums.AppHttpCodeEnum;
+import com.swm.exception.SystemException;
 import com.swm.mapper.CommentMapper;
 import com.swm.service.CommentService;
 import com.swm.service.UserService;
 import com.swm.utils.BeanCopyUtils;
-import lombok.extern.slf4j.Slf4j;
+import com.swm.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -25,7 +28,6 @@ import java.util.List;
  * @since 2023-03-01 12:17:23
  */
 @Service("commentService")
-@Slf4j
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService {
 
     @Autowired
@@ -52,6 +54,16 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         }
 //        commentVoList.forEach(commentVo -> commentVo.setChildren(getChildren(commentVo.getId())));
         return ResponseResult.okResult(new PageVo(commentVoList,page.getTotal()));
+    }
+
+    @Override
+    public ResponseResult addaddComment(Comment comment) {
+        //评论内容不能为空
+        if(!StringUtils.hasText(comment.getContent())){
+            throw new SystemException(AppHttpCodeEnum.CONTENT_NOT_NULL);
+        }
+        save(comment);
+        return ResponseResult.okResult();
     }
 
     /**
