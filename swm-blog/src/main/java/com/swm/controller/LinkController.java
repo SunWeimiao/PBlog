@@ -13,7 +13,9 @@ public class LinkController {
 
     @Autowired
     private LinkService linkService;
-
+    /**
+     * 展示所有已通过的友链
+     * */
     @GetMapping("/getAllLink")
     public ResponseResult getAllLinks(){
         return linkService.getAllLinks();

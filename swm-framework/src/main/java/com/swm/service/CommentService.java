@@ -12,8 +12,8 @@ import com.swm.domain.entity.Comment;
  * @since 2023-03-01 12:17:21
  */
 public interface CommentService extends IService<Comment> {
-    ResponseResult commentList(Long articleId,Integer pageNum,Integer pageSize);
+    ResponseResult commentList(String commentType, Long articleId, Integer pageNum, Integer pageSize);
 
-    ResponseResult addaddComment(Comment comment);
+    ResponseResult addComment(Comment comment);
 }
 

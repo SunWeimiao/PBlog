@@ -14,7 +14,6 @@ import com.swm.mapper.CommentMapper;
 import com.swm.service.CommentService;
 import com.swm.service.UserService;
 import com.swm.utils.BeanCopyUtils;
-import com.swm.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -34,13 +33,15 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     private UserService userService;
 
     @Override
-    public ResponseResult commentList(Long articleId, Integer pageNum, Integer pageSize) {
+    public ResponseResult commentList(String commentType, Long articleId, Integer pageNum, Integer pageSize) {
         //查询对应文章的根评论
         LambdaQueryWrapper<Comment> queryWrapper = new LambdaQueryWrapper<>();
         //对articleId进行判断
-        queryWrapper.eq(Comment::getArticleId,articleId);
+        queryWrapper.eq(SystemConstants.ARTICLE_COMMENT.equals(commentType),Comment::getArticleId,articleId);
         //根评论id为-1
         queryWrapper.eq(Comment::getRootId, SystemConstants.ROOT_COMMENT);
+        //评论类型
+        queryWrapper.eq(Comment::getType,commentType);
         //按时间排序
         queryWrapper.orderByAsc(Comment::getCreateTime);
         //分页查询
@@ -57,7 +58,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
     @Override
-    public ResponseResult addaddComment(Comment comment) {
+    public ResponseResult addComment(Comment comment) {
         //评论内容不能为空
         if(!StringUtils.hasText(comment.getContent())){
             throw new SystemException(AppHttpCodeEnum.CONTENT_NOT_NULL);
