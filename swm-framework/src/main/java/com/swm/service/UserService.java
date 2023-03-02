@@ -1,6 +1,7 @@
 package com.swm.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.swm.domain.ResponseResult;
 import com.swm.domain.entity.User;
 
 
@@ -12,5 +13,6 @@ import com.swm.domain.entity.User;
  */
 public interface UserService extends IService<User> {
 
+    ResponseResult userInfo();
 }
 
