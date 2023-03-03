@@ -1,5 +1,6 @@
 package com.swm.controller;
 
+import com.swm.annotation.SystemLog;
 import com.swm.domain.ResponseResult;
 import com.swm.domain.entity.User;
 import com.swm.service.UserService;
@@ -18,7 +19,12 @@ public class UserController {
         return userService.userInfo();
     }
     @PutMapping("/userInfo")
+    @SystemLog(businessName = "更新用户信息")
     public ResponseResult updateUserInfo(@RequestBody User user){
         return userService.updateUserInfo(user);
+    }
+    @PostMapping("/register")
+    public ResponseResult register(@RequestBody User user){
+        return userService.register(user);
     }
 }
