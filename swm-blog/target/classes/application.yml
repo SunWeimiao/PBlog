@@ -19,3 +19,7 @@ mybatis-plus:
       logic-delete-value: 1
       logic-not-delete-value: 0
       id-type: auto
+oss:
+  accessKey: dBDchMdL7krQM0BHHY7qYERnu_YFPQ9X0lllau0U
+  secretKey: XvMzf8Dahs1GfKWXdRZqUiOZHWn7hGEVkK7AFcCf
+  bucket: swm-blog

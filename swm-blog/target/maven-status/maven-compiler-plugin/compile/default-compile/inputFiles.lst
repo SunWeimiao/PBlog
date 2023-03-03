@@ -4,4 +4,6 @@ D:\Java\PersonalWeb\PBlog\swm-blog\src\main\java\com\swm\config\SecurityConfig.j
 D:\Java\PersonalWeb\PBlog\swm-blog\src\main\java\com\swm\SWMBlogApplication.java
 D:\Java\PersonalWeb\PBlog\swm-blog\src\main\java\com\swm\controller\BlogLoginController.java
 D:\Java\PersonalWeb\PBlog\swm-blog\src\main\java\com\swm\filter\JwtAuthenticationTokenFilter.java
+D:\Java\PersonalWeb\PBlog\swm-blog\src\main\java\com\swm\controller\CommentController.java
 D:\Java\PersonalWeb\PBlog\swm-blog\src\main\java\com\swm\controller\CategoryController.java
+D:\Java\PersonalWeb\PBlog\swm-blog\src\main\java\com\swm\controller\UserController.java
