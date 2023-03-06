@@ -32,4 +32,8 @@ public class SystemConstants
      * 友链评论
      * */
     public static final String LINK_COMMENT = "1";
+    /**
+     * redis存储浏览量的key
+     * */
+    public static final String REDISKEY_VIEWCOUNT = "article:viewCount";
 }
