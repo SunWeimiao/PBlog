@@ -36,4 +36,8 @@ public class SystemConstants
      * redis存储浏览量的key
      * */
     public static final String REDISKEY_VIEWCOUNT = "article:viewCount";
+
+    public static final String MENU = "C";
+
+    public static final String BUTTON = "F";
 }
