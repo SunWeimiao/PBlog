@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.swm.mapper.TagMapper">
+    <update id="deleteTagById">
+        UPDATE
+            sg_tag
+        SET
+            del_flag = 1
+        WHERE
+            id = #{id}
+
+    </update>
+</mapper>

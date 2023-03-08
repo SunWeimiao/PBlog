@@ -18,6 +18,8 @@ public enum AppHttpCodeEnum {
     NICKNAME_NOT_NULL(509,"昵称不能为空"),
     PASSWORD_NOT_NULL(510,"密码不能为空"),
     EMAIL_NOT_NULL(511,"电子邮箱不能为空"),
+    TAG_AND_REMARK_NOT_NULL(512,"标签名及备注不能为空"),
+    TAGNAME_EXIST(513,"标签名已存在")
     ;
 
     int code;

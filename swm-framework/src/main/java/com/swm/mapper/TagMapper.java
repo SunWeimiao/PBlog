@@ -11,6 +11,6 @@ import com.swm.domain.entity.Tag;
  * @since 2023-03-07 16:28:07
  */
 public interface TagMapper extends BaseMapper<Tag> {
-
+    boolean deleteTagById(Long id);
 }
 
