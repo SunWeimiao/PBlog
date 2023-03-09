@@ -26,7 +26,7 @@ import java.io.InputStream;
 
 @Service
 @Data
-@ConfigurationProperties(prefix = "oss")
+//@ConfigurationProperties(prefix = "oss")
 
 public class OssUploadServiceImpl implements UploadService {
     @Override
@@ -44,10 +44,10 @@ public class OssUploadServiceImpl implements UploadService {
         String url = uploadOSS(img,filePath);
         return ResponseResult.okResult(url);
     }
-
-    private String accessKey;
-    private String secretKey;
-    private String bucket;
+//TODO
+    private String accessKey="dBDchMdL7krQM0BHHY7qYERnu_YFPQ9X0lllau0U";
+    private String secretKey="XvMzf8Dahs1GfKWXdRZqUiOZHWn7hGEVkK7AFcCf";
+    private String bucket="swm-blog";
 
     public String uploadOSS(MultipartFile imgFile,String filePath)  {
         //构造一个带指定 Region 对象的配置类

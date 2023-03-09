@@ -6,11 +6,14 @@ import com.swm.domain.dto.EditTagDto;
 import com.swm.domain.dto.TagListDto;
 import com.swm.domain.entity.Tag;
 import com.swm.domain.vo.PageVo;
+import com.swm.domain.vo.TagVo;
 import com.swm.service.TagService;
 import com.swm.utils.BeanCopyUtils;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/content/tag")
@@ -59,5 +62,10 @@ public class TagController {
 //        tagService.updateTagById(tag);
 //        return ResponseResult.okResult();
 //    }
+    @GetMapping("/listAllTag")
+    public ResponseResult listAllTag(){
+        List<TagVo> list = tagService.listAllTag();
+        return ResponseResult.okResult(list);
+    }
 }
 

@@ -40,4 +40,8 @@ public class SystemConstants
     public static final String MENU = "C";
 
     public static final String BUTTON = "F";
+/**
+ * 正常
+ * */
+    public static final String NORMAL = "0";
 }

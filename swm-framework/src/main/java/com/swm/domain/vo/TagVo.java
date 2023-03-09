@@ -12,5 +12,4 @@ import lombok.NoArgsConstructor;
 public class TagVo {
     private Long id;
     private String name;
-    private String remark;
 }

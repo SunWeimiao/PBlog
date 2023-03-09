@@ -5,6 +5,9 @@ import com.swm.domain.ResponseResult;
 import com.swm.domain.dto.TagListDto;
 import com.swm.domain.entity.Tag;
 import com.swm.domain.vo.PageVo;
+import com.swm.domain.vo.TagVo;
+
+import java.util.List;
 
 
 /**
@@ -25,5 +28,7 @@ public interface TagService extends IService<Tag> {
 
 
     ResponseResult updateTagById(Tag tag);
+
+    List<TagVo> listAllTag();
 }
 
