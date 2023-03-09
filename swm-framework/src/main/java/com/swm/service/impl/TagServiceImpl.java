@@ -16,6 +16,8 @@ import com.swm.mapper.TagMapper;
 import com.swm.service.TagService;
 import com.swm.utils.BeanCopyUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -60,24 +62,18 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
     }
 
     @Override
-    public ResponseResult deleteTagById(Long id) {
-        TagMapper tagMapper = getBaseMapper();
-        tagMapper.deleteTagById(id);
+    public ResponseResult updateTagById(Tag tag) {
+        //若有标签的name相同 则报错
+        if (tagNameExist(tag.getName())){
+            throw new SystemException(AppHttpCodeEnum.TAGNAME_EXIST);
+        }
+        if(!StringUtils.hasText(tag.getName()) || !StringUtils.hasText(tag.getRemark()) ){
+            throw new SystemException(AppHttpCodeEnum.TAG_AND_REMARK_NOT_NULL);
+        }
+        updateById(tag);
         return ResponseResult.okResult();
     }
 
-    @Override
-    public ResponseResult selectTagById(Long id) {
-        Tag tag = getById(id);
-        TagVo tagVo = BeanCopyUtils.copyBean(tag, TagVo.class);
-        return ResponseResult.okResult(tagVo);
-    }
-    //TODO
-    @Override
-    public ResponseResult updateTagById(Tag tag) {
-//        Tag tag = updateById(tag.getId())
-        return null;
-    }
 
     @Override
     public List<TagVo> listAllTag() {

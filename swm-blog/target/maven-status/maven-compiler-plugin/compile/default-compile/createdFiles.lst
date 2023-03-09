@@ -1,3 +1,13 @@
+com\swm\job\UpdateViewCountJob.class
+com\swm\controller\LinkController.class
+com\swm\config\SwaggerConfig.class
+com\swm\config\SecurityConfig.class
 com\swm\controller\CommentController.class
+com\swm\SWMBlogApplication.class
+com\swm\controller\ArticleController.class
+com\swm\controller\CategoryController.class
 com\swm\controller\UserController.class
+com\swm\controller\BlogLoginController.class
 com\swm\controller\UploadController.class
+com\swm\filter\JwtAuthenticationTokenFilter.class
+com\swm\runner\ViewCountRunner.class

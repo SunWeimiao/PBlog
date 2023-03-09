@@ -44,4 +44,5 @@ public class SystemConstants
  * 正常
  * */
     public static final String NORMAL = "0";
+    public static final String ADMIN = "1";
 }

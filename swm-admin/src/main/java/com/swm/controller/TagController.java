@@ -22,6 +22,7 @@ public class TagController {
     private TagService tagService;
 
     @GetMapping("/list")
+    @ApiOperation(value = "查询标签列表")
     public ResponseResult<PageVo> list(Integer pageNum, Integer pageSize, TagListDto tagListDto){
         return tagService.pageTagList(pageNum,pageSize,tagListDto);
     }
@@ -30,7 +31,8 @@ public class TagController {
     @ApiOperation(value = "添加标签")
     public ResponseResult addTag(@RequestBody AddTagDto addTagDto){
         Tag tag = BeanCopyUtils.copyBean(addTagDto, Tag.class);
-        return tagService.addTag(tag);
+        tagService.addTag(tag);
+        return ResponseResult.okResult();
     }
     /**
      * 删除标签
@@ -38,31 +40,38 @@ public class TagController {
     @DeleteMapping("/{id}")
     @ApiOperation(value = "删除标签（逻辑删除）")
     public ResponseResult deleteTag(@PathVariable("id")Long id){
-        return tagService.deleteTagById(id);
+//        tagService.deleteTagById(id);
+        tagService.removeById(id);
+        return ResponseResult.okResult();
     }
     /**
      * 更新标签信息前，先获取
      * */
     @GetMapping("/{id}")
     @ApiOperation(value = "通过id获取标签")
-    public ResponseResult selectTagById(@PathVariable("id")Long id){
-        return tagService.selectTagById(id);
+    public ResponseResult getInfo(@PathVariable(value = "id")Long id){
+        Tag tag = tagService.getById(id);
+        return ResponseResult.okResult(tag);
     }
+//    public ResponseResult selectTagById(@PathVariable("id")Long id){
+//        tagService.selectTagById(id);
+//        return ResponseResult.okResult();
+//    }
 
     /**
      * 获取标签信息之后进行更新
      * */
 
-    //TODO 更新标签还未写
 
-//    @PutMapping
-//    @ApiOperation(value = "更新标签")
-//    public ResponseResult edit(@RequestBody EditTagDto editTagDto){
-//        Tag tag = BeanCopyUtils.copyBean(editTagDto,Tag.class);
-//        tagService.updateTagById(tag);
-//        return ResponseResult.okResult();
-//    }
+    @PutMapping
+    @ApiOperation(value = "更新标签")
+    public ResponseResult edit(@RequestBody EditTagDto editTagDto){
+        Tag tag = BeanCopyUtils.copyBean(editTagDto,Tag.class);
+        tagService.updateTagById(tag);
+        return ResponseResult.okResult();
+    }
     @GetMapping("/listAllTag")
+    @ApiOperation("写博文时查看所有标签")
     public ResponseResult listAllTag(){
         List<TagVo> list = tagService.listAllTag();
         return ResponseResult.okResult(list);

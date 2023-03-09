@@ -3,6 +3,8 @@ package com.swm.controller;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.fastjson.JSON;
 import com.swm.domain.ResponseResult;
+import com.swm.domain.dto.AddCategoryDto;
+import com.swm.domain.dto.EditCategoryDto;
 import com.swm.domain.entity.Category;
 import com.swm.domain.vo.CategoryVo;
 import com.swm.domain.vo.ExcelCategoryVo;
@@ -30,8 +32,9 @@ public class CategoryController {
         return ResponseResult.okResult(list);
     }
     @PutMapping
-    public ResponseResult edit(@RequestBody Category category){
-        categoryService.updateById(category);
+    public ResponseResult edit(@RequestBody EditCategoryDto editTagDto){
+        Category category = BeanCopyUtils.copyBean(editTagDto,Category.class);
+        categoryService.updateCategoryById(category);
         return ResponseResult.okResult();
     }
 
@@ -47,9 +50,11 @@ public class CategoryController {
         return ResponseResult.okResult(category);
     }
     @PostMapping
-    public ResponseResult add(@RequestBody Category category){
-        categoryService.save(category);
+    public ResponseResult add(@RequestBody AddCategoryDto addCategoryDto){
+        Category category = BeanCopyUtils.copyBean(addCategoryDto, Category.class);
+        categoryService.addCategory(category);
         return ResponseResult.okResult();
+
     }
     /**
      * 获取用户列表

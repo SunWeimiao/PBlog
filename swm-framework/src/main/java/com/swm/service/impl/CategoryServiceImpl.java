@@ -8,8 +8,11 @@ import com.swm.constants.SystemConstants;
 import com.swm.domain.ResponseResult;
 import com.swm.domain.entity.Article;
 import com.swm.domain.entity.Category;
+import com.swm.domain.entity.Tag;
 import com.swm.domain.vo.CategoryVo;
 import com.swm.domain.vo.PageVo;
+import com.swm.enums.AppHttpCodeEnum;
+import com.swm.exception.SystemException;
 import com.swm.mapper.CategoryMapper;
 import com.swm.service.ArticleService;
 import com.swm.service.CategoryService;
@@ -67,13 +70,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
 
     @Override
     public PageVo selectCategoryPage(Category category, Integer pageNum, Integer pageSize) {
-        //TODO 前端需进行判断： 查询条件为空时，不带status属性返回
-//        if (category.getName().equals("")){
-//            category.setName(null);
-//        }
-//        if (category.getStatus().equals("")){
-//            category.setStatus(null);
-//        }
+
 
         LambdaQueryWrapper<Category> queryWrapper = new LambdaQueryWrapper();
 
@@ -92,6 +89,38 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         pageVo.setTotal(page.getTotal());
         pageVo.setRows(categories);
         return pageVo;
+    }
+
+    @Override
+    public ResponseResult addCategory(Category category) {
+        //若有分类的name相同 则报错
+        if (categoryNameExist(category.getName())){
+            throw new SystemException(AppHttpCodeEnum.CATEGORYNAME_EXIST);
+        }
+        if(!StringUtils.hasText(category.getName()) || !StringUtils.hasText(category.getDescription()) ){
+            throw new SystemException(AppHttpCodeEnum.CATEGORY_AND_DESCRIPTION_NOT_NULL);
+        }
+        save(category);
+        return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult updateCategoryById(Category category) {
+        //若有分类的name相同 则报错
+        if (categoryNameExist(category.getName())){
+            throw new SystemException(AppHttpCodeEnum.CATEGORYNAME_EXIST);
+        }
+        if(!StringUtils.hasText(category.getName()) || !StringUtils.hasText(category.getDescription()) ){
+            throw new SystemException(AppHttpCodeEnum.CATEGORY_AND_DESCRIPTION_NOT_NULL);
+        }
+        updateById(category);
+        return ResponseResult.okResult();
+    }
+
+    private boolean categoryNameExist(String Name) {
+        LambdaQueryWrapper<Category> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Category::getName,Name);
+        return count(queryWrapper)>0;
     }
 }
 
