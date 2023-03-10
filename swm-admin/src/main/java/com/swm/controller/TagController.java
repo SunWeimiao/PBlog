@@ -9,6 +9,7 @@ import com.swm.domain.vo.PageVo;
 import com.swm.domain.vo.TagVo;
 import com.swm.service.TagService;
 import com.swm.utils.BeanCopyUtils;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/content/tag")
+@Api("标签管理")
 public class TagController {
     @Autowired
     private TagService tagService;
@@ -48,7 +50,7 @@ public class TagController {
      * 更新标签信息前，先获取
      * */
     @GetMapping("/{id}")
-    @ApiOperation(value = "通过id获取标签")
+    @ApiOperation(value = "获取标签详情")
     public ResponseResult getInfo(@PathVariable(value = "id")Long id){
         Tag tag = tagService.getById(id);
         return ResponseResult.okResult(tag);
@@ -71,7 +73,7 @@ public class TagController {
         return ResponseResult.okResult();
     }
     @GetMapping("/listAllTag")
-    @ApiOperation("写博文时查看所有标签")
+    @ApiOperation("写博文时获取所有标签")
     public ResponseResult listAllTag(){
         List<TagVo> list = tagService.listAllTag();
         return ResponseResult.okResult(list);

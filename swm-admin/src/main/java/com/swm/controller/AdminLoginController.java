@@ -53,6 +53,7 @@ public class AdminLoginController {
         return adminLoginService.login(user);
     }
     @GetMapping("getInfo")
+    @ApiOperation(value = "获取用户详情")
     public ResponseResult<AdminUserInfoVo> getInfo(){
         //获取当前登录的用户
         LoginUser loginUser = SecurityUtils.getLoginUser();
@@ -68,6 +69,7 @@ public class AdminLoginController {
         return ResponseResult.okResult(adminUserInfoVo);
     }
     @GetMapping("getRouters")
+    @ApiOperation(value = "获取用户对应权限的菜单")
     public ResponseResult<RoutersVo> getRouters(){
         Long userId = SecurityUtils.getUserId();
         //查询routers 结果是tree的形式

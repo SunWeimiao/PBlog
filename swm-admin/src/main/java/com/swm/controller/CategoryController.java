@@ -13,6 +13,8 @@ import com.swm.enums.AppHttpCodeEnum;
 import com.swm.service.CategoryService;
 import com.swm.utils.BeanCopyUtils;
 import com.swm.utils.WebUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -22,16 +24,19 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/content/category")
+@Api(description = "分类管理")
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
     @GetMapping("/listAllCategory")
+    @ApiOperation("写博文时获取所有分类")
     public ResponseResult listAllCategory(){
         List<CategoryVo> list = categoryService.listAllCategory();
         return ResponseResult.okResult(list);
     }
     @PutMapping
+    @ApiOperation("更新分类")
     public ResponseResult edit(@RequestBody EditCategoryDto editTagDto){
         Category category = BeanCopyUtils.copyBean(editTagDto,Category.class);
         categoryService.updateCategoryById(category);
@@ -39,34 +44,37 @@ public class CategoryController {
     }
 
     @DeleteMapping(value = "/{id}")
+    @ApiOperation("删除分类")
     public ResponseResult remove(@PathVariable(value = "id")Long id){
         categoryService.removeById(id);
         return ResponseResult.okResult();
     }
 
     @GetMapping(value = "/{id}")
+    @ApiOperation("获取分类详情")
     public ResponseResult getInfo(@PathVariable(value = "id")Long id){
         Category category = categoryService.getById(id);
         return ResponseResult.okResult(category);
     }
     @PostMapping
+    @ApiOperation("新增分类")
     public ResponseResult add(@RequestBody AddCategoryDto addCategoryDto){
         Category category = BeanCopyUtils.copyBean(addCategoryDto, Category.class);
         categoryService.addCategory(category);
         return ResponseResult.okResult();
 
     }
-    /**
-     * 获取用户列表
-     */
+
     @GetMapping("/list")
+    @ApiOperation("获取分类列表")
     public ResponseResult list(Category category, Integer pageNum, Integer pageSize) {
         PageVo pageVo = categoryService.selectCategoryPage(category,pageNum,pageSize);
         return ResponseResult.okResult(pageVo);
     }
-
+//      TODO 权限检查
     @PreAuthorize("@ps.hasPermission('content:category:export')")
     @GetMapping("/export")
+    @ApiOperation("导出分类")
     public void export(HttpServletResponse response){
         try {
             //设置下载文件的请求头
