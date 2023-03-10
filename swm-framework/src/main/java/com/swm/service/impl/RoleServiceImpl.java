@@ -64,6 +64,10 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
             insertRoleMenu(role);
         }
     }
+    @Override
+    public List<Long> selectRoleIdByUserId(Long userId) {
+        return getBaseMapper().selectRoleIdByUserId(userId);
+    }
 
     @Override
     public ResponseResult selectRolePage(Role role, Integer pageNum, Integer pageSize) {
