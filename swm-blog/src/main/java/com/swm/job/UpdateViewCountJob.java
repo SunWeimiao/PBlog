@@ -1,5 +1,6 @@
 package com.swm.job;
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.swm.constants.SystemConstants;
 import com.swm.domain.entity.Article;
 import com.swm.service.ArticleService;
@@ -28,6 +29,11 @@ public class UpdateViewCountJob {
                 .map(entry -> new Article(Long.valueOf(entry.getKey()), entry.getValue().longValue()))
                 .collect(Collectors.toList());
         //更新浏览量
-        articleService.updateBatchById(articles);
+            for (Article article : articles) {
+                LambdaUpdateWrapper<Article> updateWrapper = new LambdaUpdateWrapper<>();
+                updateWrapper.eq(Article :: getId, article.getId());
+                updateWrapper.set(Article :: getViewCount, article.getViewCount());
+                articleService.update(updateWrapper);
+            }
     }
 }

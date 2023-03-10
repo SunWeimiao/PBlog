@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.swm.domain.ResponseResult;
 import com.swm.domain.dto.TagListDto;
 import com.swm.domain.entity.Article;
+import com.swm.domain.entity.Category;
 import com.swm.domain.entity.Tag;
 import com.swm.domain.entity.User;
 import com.swm.domain.vo.PageVo;
@@ -51,7 +52,7 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
     @Override
     public ResponseResult addTag(Tag tag) {
         //若有标签的name相同 则报错
-        if (tagNameExist(tag.getName())){
+        if (tagNameExist(tag.getName(), tag.getId())){
             throw new SystemException(AppHttpCodeEnum.TAGNAME_EXIST);
         }
         if(!StringUtils.hasText(tag.getName()) || !StringUtils.hasText(tag.getRemark()) ){
@@ -64,7 +65,7 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
     @Override
     public ResponseResult updateTagById(Tag tag) {
         //若有标签的name相同 则报错
-        if (tagNameExist(tag.getName())){
+        if (tagNameExist(tag.getName(), tag.getId())){
             throw new SystemException(AppHttpCodeEnum.TAGNAME_EXIST);
         }
         if(!StringUtils.hasText(tag.getName()) || !StringUtils.hasText(tag.getRemark()) ){
@@ -85,10 +86,17 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
     }
 
 
-    private boolean tagNameExist(String tagName) {
+    private boolean tagNameExist(String tagName,Long id) {
         LambdaQueryWrapper<Tag> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Tag::getName,tagName);
-        return count(queryWrapper)>0;
+        int numName = count(queryWrapper);
+        queryWrapper.eq(Tag::getId,id);
+        int numId = count(queryWrapper);
+        // numId==numName 命名不重复
+        if (numId==numName){
+            return false;
+        }
+        return true;
     }
 }
 

@@ -94,7 +94,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Override
     public ResponseResult addCategory(Category category) {
         //若有分类的name相同 则报错
-        if (categoryNameExist(category.getName())){
+        if (categoryNameExist(category.getName(), category.getId())){
             throw new SystemException(AppHttpCodeEnum.CATEGORYNAME_EXIST);
         }
         if(!StringUtils.hasText(category.getName()) || !StringUtils.hasText(category.getDescription()) ){
@@ -107,7 +107,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Override
     public ResponseResult updateCategoryById(Category category) {
         //若有分类的name相同 则报错
-        if (categoryNameExist(category.getName())){
+        if (categoryNameExist(category.getName(), category.getId())){
             throw new SystemException(AppHttpCodeEnum.CATEGORYNAME_EXIST);
         }
         if(!StringUtils.hasText(category.getName()) || !StringUtils.hasText(category.getDescription()) ){
@@ -117,10 +117,17 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         return ResponseResult.okResult();
     }
 
-    private boolean categoryNameExist(String Name) {
+    private boolean categoryNameExist(String Name,Long id) {
         LambdaQueryWrapper<Category> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Category::getName,Name);
-        return count(queryWrapper)>0;
+        int numName = count(queryWrapper);
+        queryWrapper.eq(Category::getId,id);
+        int numId = count(queryWrapper);
+        // numId==numName 命名不重复
+        if (numId==numName){
+            return false;
+        }
+        return true;
     }
 }
 
