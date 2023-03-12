@@ -1,5 +1,10 @@
 package com.swm;
 
+import com.aliyun.oss.ClientException;
+import com.aliyun.oss.OSS;
+import com.aliyun.oss.OSSClientBuilder;
+import com.aliyun.oss.OSSException;
+import com.aliyun.oss.model.PutObjectRequest;
 import com.google.gson.Gson;
 import com.qiniu.common.QiniuException;
 import com.qiniu.http.Response;
@@ -73,4 +78,30 @@ public class OSStest {
         }
 
     }
+
+    @Test
+    public void aliyunOssTest(){
+//        private String uploadOSS(String filePath, InputStream inputStream){
+            // Endpoint以华东1（杭州）为例，其它Region请按实际情况填写。
+            String endpoint = "https://oss-cn-hangzhou.aliyuncs.com";
+            // 阿里云账号AccessKey拥有所有API的访问权限，风险很高。强烈建议您创建并使用RAM用户进行API访问或日常运维，请登录RAM控制台创建RAM用户。
+            String accessKeyId = "id";
+            String accessKeySecret = "secret";
+            // 填写Bucket名称，例如examplebucket。
+            String bucketName = "swm-blog";
+            // 填写Object完整路径，例如exampledir/exampleobject.txt。Object完整路径中不能包含Bucket名称。
+            String objectName = "C:\\Users\\Snakewood\\Desktop\\素材\\tou.png";
+
+            // 创建OSSClient实例。
+            OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
+
+//            PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, filePath, inputStream);
+
+//        ossClient.putObject(bucketName, objectName, new ByteArrayInputStream(content.getBytes()));
+            // 关闭OSSClient
+            ossClient.shutdown();
+
+
+    }
+//    }
 }

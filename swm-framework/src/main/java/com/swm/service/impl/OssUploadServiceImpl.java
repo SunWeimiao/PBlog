@@ -1,28 +1,18 @@
 package com.swm.service.impl;
 
-import com.google.gson.Gson;
-import com.qiniu.common.QiniuException;
-import com.qiniu.http.Response;
-import com.qiniu.storage.Configuration;
-import com.qiniu.storage.Region;
-import com.qiniu.storage.UploadManager;
-import com.qiniu.storage.model.DefaultPutRet;
-import com.qiniu.util.Auth;
+import com.aliyun.oss.OSS;
+import com.aliyun.oss.OSSClientBuilder;
+import com.aliyun.oss.model.PutObjectRequest;
 import com.swm.domain.ResponseResult;
 import com.swm.enums.AppHttpCodeEnum;
 import com.swm.exception.SystemException;
 import com.swm.service.UploadService;
 import com.swm.utils.PathUtils;
 import lombok.Data;
-import lombok.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 @Service
 @Data
@@ -30,7 +20,7 @@ import java.io.InputStream;
 
 public class OssUploadServiceImpl implements UploadService {
     @Override
-    public ResponseResult uploadImg(MultipartFile img){
+    public ResponseResult uploadImg(MultipartFile img) throws IOException{
         //判断文件类型和大小
         //获取初始文件名
         String originalFilename = img.getOriginalFilename();
@@ -41,46 +31,29 @@ public class OssUploadServiceImpl implements UploadService {
         }
         //通过判断 上传文件至OSS
         String filePath = PathUtils.generateFilePath(originalFilename);
-        String url = uploadOSS(img,filePath);
+        String url = uploadFile(filePath,img.getInputStream());
         return ResponseResult.okResult(url);
     }
-//TODO
-    private String accessKey="dBDchMdL7krQM0BHHY7qYERnu_YFPQ9X0lllau0U";
-    private String secretKey="XvMzf8Dahs1GfKWXdRZqUiOZHWn7hGEVkK7AFcCf";
-    private String bucket="swm-blog";
 
-    public String uploadOSS(MultipartFile imgFile,String filePath)  {
-        //构造一个带指定 Region 对象的配置类
-        Configuration cfg = new Configuration(Region.autoRegion());
-        cfg.resumableUploadAPIVersion = Configuration.ResumableUploadAPIVersion.V2;// 指定分片上传版本
-        //...其他参数参考类注释
-        UploadManager uploadManager = new UploadManager(cfg);
-        //...生成上传凭证，然后准备上传
-        //默认不指定key的情况下，以文件内容的hash值作为文件名
-        String key = filePath;
-        try {
-            InputStream inputStream = imgFile.getInputStream();
-            Auth auth = Auth.create(accessKey, secretKey);
-            String upToken = auth.uploadToken(bucket);
-            try {
-                Response response = uploadManager.put(inputStream,key,upToken,null, null);
-                //解析上传成功的结果
-                DefaultPutRet putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
-                System.out.println(putRet.key);
-                System.out.println(putRet.hash);
-                return "http://rqwd5z7pt.bkt.clouddn.com/"+key;
-            } catch (QiniuException ex) {
-                Response r = ex.response;
-                System.err.println(r.toString());
-                try {
-                    System.err.println(r.bodyString());
-                } catch (QiniuException ex2) {
-                    //ignore
-                }
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return "文件上传失败";
+
+    private String uploadFile(String filePath, InputStream inputStream){
+        // Endpoint以华东1（杭州）为例，其它Region请按实际情况填写。
+        String endpoint = "oss-cn-hangzhou.aliyuncs.com";
+        // 阿里云账号AccessKey拥有所有API的访问权限，风险很高。强烈建议您创建并使用RAM用户进行API访问或日常运维，请登录RAM控制台创建RAM用户。
+        String accessKeyId = "id";
+        String accessKeySecret = "secret";
+        // 填写Bucket名称，例如examplebucket。
+        String bucketName = "swm-blog";
+
+
+        // 创建OSSClient实例。
+        OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
+
+        PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, filePath, inputStream);
+
+        ossClient.putObject(putObjectRequest);
+        // 关闭OSSClient
+        ossClient.shutdown();
+        return "https://"+bucketName+"."+endpoint+"/"+filePath;
     }
 }
